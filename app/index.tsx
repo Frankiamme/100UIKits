@@ -14,8 +14,8 @@ import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 const blurhash =
   "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
 
-const logo = require("../../assets/images/sign-up/paw.svg");
-const facebook = require("../../assets/images/sign-up/FacebookLogo.png");
+const logo = require("../assets/images/sign-up/paw.svg");
+const facebook = require("../assets/images/sign-up/FacebookLogo.png");
 
 export default function signup() {
   const [text, onChangeText] = React.useState("Useless Text");
@@ -81,6 +81,15 @@ export default function signup() {
           </Pressable>
         </View>
       </SafeAreaView>
+      <View style={styles.loginContainer}>
+        <Pressable
+          style={styles.loginButton}
+          onPress={() => console.log("login")}
+        >
+          <Text style={styles.loginText}>Have an account?</Text>
+          <Text style={styles.loginTextOrange}>Log In</Text>
+        </Pressable>
+      </View>
     </SafeAreaProvider>
   );
 }
@@ -156,5 +165,25 @@ const styles = StyleSheet.create({
     color: SignupColors.text,
     textAlign: "center",
     fontFamily: "Inter_500Medium",
+  },
+  loginContainer: {
+    height: 83,
+    backgroundColor: SignupColors.registerbg,
+    alignItems: "center",
+  },
+  loginButton: {
+    flexDirection: "row",
+      gap: 8,
+    paddingTop: 16
+  },
+  loginText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 16,
+    color: SignupColors.form,
+  },
+  loginTextOrange: {
+    color: SignupColors.button,
+    fontFamily: "Inter_500Medium",
+    fontSize: 16,
   },
 });
