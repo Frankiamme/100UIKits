@@ -10,15 +10,17 @@ import React from "react";
 import SignupColors from "@/constants/SignupColors";
 import { Image } from "expo-image";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
+import Entypo from "@expo/vector-icons/Entypo";
 
 const blurhash =
   "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
 
-const logo = require("../../assets/images/sign-up/paw.svg");
-const facebook = require("../../assets/images/sign-up/FacebookLogo.png");
+const logo = require("../assets/images/sign-up/paw.png");
+const facebook = require("../assets/images/sign-up/FacebookLogo.png");
 
 export default function signup() {
   const [text, onChangeText] = React.useState("Useless Text");
+  const [passSecure, setPassSecure] = React.useState(true);
 
   return (
     <SafeAreaProvider>
@@ -53,13 +55,18 @@ export default function signup() {
             style={styles.input}
             placeholderTextColor={SignupColors.form}
           />
-          <TextInput
-            onChangeText={onChangeText}
-            placeholder="***********"
-            style={styles.input}
-            secureTextEntry={true}
-            placeholderTextColor={SignupColors.form}
-          />
+          <View style={styles.passwordInput}>
+            <TextInput
+              onChangeText={onChangeText}
+              placeholder="***********"
+              secureTextEntry={passSecure}
+              style={styles.inputSecure}
+              placeholderTextColor={SignupColors.form}
+            />
+            <Pressable onPress={() => setPassSecure(!passSecure)}>
+              <Entypo name="eye" size={24} color="black" />
+            </Pressable>
+          </View>
           <Pressable
             style={styles.signInButton}
             onPress={() => console.log("Pressed")}
@@ -81,6 +88,15 @@ export default function signup() {
           </Pressable>
         </View>
       </SafeAreaView>
+      <View style={styles.loginContainer}>
+        <Pressable
+          style={styles.loginButton}
+          onPress={() => console.log("login")}
+        >
+          <Text style={styles.loginText}>Have an account?</Text>
+          <Text style={styles.loginTextOrange}>Log In</Text>
+        </Pressable>
+      </View>
     </SafeAreaProvider>
   );
 }
@@ -128,6 +144,27 @@ const styles = StyleSheet.create({
     color: SignupColors.facebook,
     fontFamily: "Inter_400Regular",
   },
+  inputSecure: {
+    height: 54,
+    fontSize: 20,
+    color: SignupColors.facebook,
+    fontFamily: "Inter_400Regular",
+    width: "90%"
+  },
+  passwordInput: {
+    borderColor: SignupColors.form,
+    borderWidth: 1,
+    height: 54,
+    borderRadius: 40,
+    paddingHorizontal: 28,
+    fontSize: 20,
+    color: SignupColors.facebook,
+    fontFamily: "Inter_400Regular",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: 16,
+  },
   signInButton: {
     backgroundColor: SignupColors.button,
     height: 54,
@@ -156,5 +193,25 @@ const styles = StyleSheet.create({
     color: SignupColors.text,
     textAlign: "center",
     fontFamily: "Inter_500Medium",
+  },
+  loginContainer: {
+    height: 83,
+    backgroundColor: SignupColors.registerbg,
+    alignItems: "center",
+  },
+  loginButton: {
+    flexDirection: "row",
+    gap: 8,
+    paddingTop: 16,
+  },
+  loginText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 16,
+    color: SignupColors.form,
+  },
+  loginTextOrange: {
+    color: SignupColors.button,
+    fontFamily: "Inter_500Medium",
+    fontSize: 16,
   },
 });
