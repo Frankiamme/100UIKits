@@ -9,6 +9,7 @@ import {
   Inter_500Medium,
   Inter_600SemiBold,
 } from "@expo-google-fonts/inter";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 
 import 'react-native-reanimated';
 
@@ -60,9 +61,14 @@ function RootLayoutNav() {
   return (
     // <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
     <ThemeProvider value={DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: true, title: "Checkout" }} />
-      </Stack>
+      <KeyboardProvider>
+        <Stack>
+          <Stack.Screen
+            name="index"
+            options={{ headerShown: true, title: "Checkout" }}
+          />
+        </Stack>
+      </KeyboardProvider>
     </ThemeProvider>
   );
 }
