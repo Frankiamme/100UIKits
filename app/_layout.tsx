@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import {
   Inter_400Regular,
   Inter_500Medium,
+  Inter_600SemiBold,
 } from "@expo-google-fonts/inter";
 
 import 'react-native-reanimated';
@@ -32,6 +33,7 @@ export default function RootLayout() {
     ...FontAwesome.font,
     Inter_400Regular,
     Inter_500Medium,
+    Inter_600SemiBold,
   });
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
@@ -56,9 +58,10 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    // <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={DefaultTheme}>
       <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} /> 
+        <Stack.Screen name="index" options={{ headerShown: true, title: "Checkout" }} />
       </Stack>
     </ThemeProvider>
   );

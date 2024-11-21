@@ -2,216 +2,281 @@ import {
   View,
   Text,
   StyleSheet,
-  TextInput,
   StatusBar,
+  ScrollView,
   Pressable,
+  TextInput,
+  Modal,
+  Alert,
 } from "react-native";
 import React from "react";
-import SignupColors from "@/constants/SignupColors";
-import { Image } from "expo-image";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
-import Entypo from "@expo/vector-icons/Entypo";
+import checkoutColors from "@/constants/checkoutColors";
+import { Image } from "expo-image";
+import { AntDesign, MaterialIcons } from "@expo/vector-icons/";
+
+const bag = require("../assets/images/checkout/bag.png");
 
 const blurhash =
   "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
 
-const logo = require("../assets/images/sign-up/paw.png");
-const facebook = require("../assets/images/sign-up/FacebookLogo.png");
-
-export default function signup() {
-  const [text, onChangeText] = React.useState("Useless Text");
-  const [passSecure, setPassSecure] = React.useState(true);
-
+export default function checkout() {
+  const [modalVisible, setModalVisible] = React.useState(true);
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider style={styles.screenBg}>
       <SafeAreaView style={styles.container}>
         <StatusBar animated={true} />
-        <Image
-          style={styles.image}
-          source={logo}
-          placeholder={{ blurhash }}
-          contentFit="cover"
-          transition={300}
-        />
-        <View style={styles.headingContainer}>
-          <Text style={styles.title}>Meow!</Text>
+        
+        <View style={styles.noticeBg}>
+          <Text style={styles.noticeBgTextBig}>
+            Delivery carefully to your door
+          </Text>
+          <Text style={styles.noticeBgTextSmall}>It is completely free!</Text>
+        </View>
+        <View style={styles.productOverview}>
+          <Image
+            style={styles.image}
+            source={bag}
+            placeholder={{ blurhash }}
+            contentFit="cover"
+          />
           <View>
-            <Text style={styles.description}>Welcome to our adoption app!</Text>
-            <Text style={styles.description}>
-              I hope you will find what you are looking for!
+            <Text style={styles.productDescripionTitle}>
+              Yellow Bag Edition
             </Text>
+            <Text style={styles.productDescripionText}>100% Synthetic.</Text>
+            <Text style={styles.productDescripionText}>Leather</Text>
           </View>
         </View>
-        <View style={styles.form}>
-          <TextInput
-            onChangeText={onChangeText}
-            placeholder="Username"
-            style={styles.input}
-            placeholderTextColor={SignupColors.form}
-          />
-          <TextInput
-            onChangeText={onChangeText}
-            placeholder="Email"
-            style={styles.input}
-            placeholderTextColor={SignupColors.form}
-          />
-          <View style={styles.passwordInput}>
-            <TextInput
-              onChangeText={onChangeText}
-              placeholder="***********"
-              secureTextEntry={passSecure}
-              style={styles.inputSecure}
-              placeholderTextColor={SignupColors.form}
-            />
-            <Pressable onPress={() => setPassSecure(!passSecure)}>
-              <Entypo name="eye" size={24} color="black" />
-            </Pressable>
+        <ScrollView style={styles.checkoutOptionsContainer}>
+          <View style={styles.checkoutAddress}>
+            <Text style={styles.checkoutItemTitle}>Shipping Address</Text>
+            <View style={styles.checkoutItem}>
+              <Text style={styles.checkoutItemContent}>
+                234 Forest Street Lincolnton, NC 28092
+              </Text>
+              <AntDesign name="check" size={24} color="black" />
+            </View>
           </View>
+          <View style={styles.divider}></View>
+          <View style={styles.checkoutDelivery}>
+            <Text style={styles.checkoutItemTitle}>Delivery Method</Text>
+            <View style={styles.checkoutItem}>
+              <View style={{ gap: 3 }}>
+                <Text style={styles.checkoutItemContent}>2 Deliveries</Text>
+                <Text style={styles.checkoutItemContent}>
+                  From French & Italy
+                </Text>
+                <Text style={{ fontFamily: "Inter_400Regular", fontSize: 16 }}>
+                  Free Delivery
+                </Text>
+              </View>
+              <AntDesign name="check" size={24} color="black" />
+            </View>
+          </View>
+          <View style={styles.divider}></View>
           <Pressable
-            style={styles.signInButton}
-            onPress={() => console.log("Pressed")}
+            style={styles.checkoutPayment}
+            onPress={() => setModalVisible(!modalVisible)}
           >
-            <Text style={styles.signInButtonText}>Sign In</Text>
+            <Text style={styles.checkoutItemTitle}>Payment</Text>
+            <View style={styles.checkoutItem}>
+              <Text style={styles.checkoutItemContent}>
+                Select a payment method
+              </Text>
+              <MaterialIcons
+                name="keyboard-arrow-right"
+                size={24}
+                color="black"
+              />
+            </View>
           </Pressable>
-          <Pressable
-            style={styles.facebookRegister}
-            onPress={() => console.log("Facebook")}
+          <View style={styles.divider}></View>
+          <View style={styles.checkouDiscount}>
+            <View style={styles.checkoutItem}>
+              <TextInput
+                style={styles.checkoutItemDiscount}
+                placeholder="Discount promocode..."
+                placeholderTextColor={checkoutColors.textLight}
+              />
+            </View>
+          </View>
+          <View style={styles.dividerLast}></View>
+        </ScrollView>
+        <View style={styles.priceContainer}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
           >
-            <Image
-              style={styles.FBimage}
-              source={facebook}
-              placeholder={{ blurhash }}
-              contentFit="cover"
-              transition={300}
-            />
-            <Text style={styles.description}>Sign up with Facebook</Text>
-          </Pressable>
+            <Text style={[styles.priceText, { fontSize: 18 }]}>
+              Subtotal: $2227.00
+            </Text>
+            <Text style={[styles.priceText, { fontSize: 16 }]}>Total</Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Text style={[styles.priceText, { fontSize: 18 }]}>
+              Shipping: Free
+            </Text>
+            <Text style={styles.priceTotal}>$2227.00</Text>
+          </View>
         </View>
-      </SafeAreaView>
-      <View style={styles.loginContainer}>
         <Pressable
-          style={styles.loginButton}
-          onPress={() => console.log("login")}
+          style={styles.placeOrder}
+          onPress={() => console.log("Pressed")}
         >
-          <Text style={styles.loginText}>Have an account?</Text>
-          <Text style={styles.loginTextOrange}>Log In</Text>
+          <Text style={styles.priceTotal}>Place Order</Text>
         </Pressable>
-      </View>
+      </SafeAreaView>
     </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
+  screenBg: {
+    backgroundColor: checkoutColors.bgOffwhite,
+  },
   container: {
-    backgroundColor: SignupColors.white,
-    flex: 1,
     alignItems: "center",
-    paddingTop: 80,
-    gap: 40,
+  },
+  noticeBg: {
+    backgroundColor: checkoutColors.orange,
+    height: 64,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    gap: 2,
+  },
+  noticeBgTextBig: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 16,
+  },
+  noticeBgTextSmall: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 14,
+  },
+  productOverview: {
+    width: "90%",
+    marginTop: 28,
+    marginBottom: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 24,
   },
   image: {
-    width: 40,
-    height: 40,
-    backgroundColor: "#0553",
+    width: 118,
+    height: 118,
+    borderRadius: 10,
   },
-  headingContainer: {
-    width: "85%",
-    alignItems: "center",
-    gap: 16,
-  },
-  title: {
-    fontSize: 36,
-    color: SignupColors.text,
-    fontFamily: "Inter_500Medium",
-  },
-  description: {
+  productDescripionTitle: {
+    fontFamily: "Inter_600SemiBold",
     fontSize: 18,
-    color: SignupColors.text,
-    textAlign: "center",
-    fontFamily: "Inter_400Regular",
+    paddingBottom: 10,
   },
-  form: {
-    width: "90%",
-    gap: 18,
-  },
-  input: {
-    borderColor: SignupColors.form,
-    borderWidth: 1,
-    height: 54,
-    borderRadius: 40,
-    paddingLeft: 28,
-    fontSize: 20,
-    color: SignupColors.facebook,
+  productDescripionText: {
     fontFamily: "Inter_400Regular",
+    fontSize: 16,
+    color: checkoutColors.textLight,
+    paddingBottom: 2,
+    opacity: 0.6,
   },
-  inputSecure: {
-    height: 54,
-    fontSize: 20,
-    color: SignupColors.facebook,
-    fontFamily: "Inter_400Regular",
-    width: "90%"
+  checkoutOptionsContainer: {
+    backgroundColor: checkoutColors.white,
+    width: "100%",
   },
-  passwordInput: {
-    borderColor: SignupColors.form,
-    borderWidth: 1,
-    height: 54,
-    borderRadius: 40,
-    paddingHorizontal: 28,
-    fontSize: 20,
-    color: SignupColors.facebook,
-    fontFamily: "Inter_400Regular",
+  checkoutItem: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    gap: 16,
   },
-  signInButton: {
-    backgroundColor: SignupColors.button,
-    height: 54,
-    borderRadius: 40,
+  checkoutAddress: {
+    width: "90%",
+    alignSelf: "center",
     justifyContent: "center",
-    alignItems: "center",
+    height: 94,
   },
-  signInButtonText: {
-    fontSize: 24,
-    color: SignupColors.white,
-    fontFamily: "Inter_500Medium  ",
-  },
-  facebookRegister: {
-    flexDirection: "row",
+  checkoutDelivery: {
+    width: "90%",
+    alignSelf: "center",
     justifyContent: "center",
-    alignItems: "center",
-    gap: 16,
+    height: 114,
   },
-  FBimage: {
-    width: 18,
-    height: 18,
-    backgroundColor: "#0553",
+  checkoutPayment: {
+    width: "90%",
+    alignSelf: "center",
+    justifyContent: "center",
+    height: 74,
+    gap: 2,
   },
-  FBdescription: {
+  checkoutItemTitle: {
+    fontFamily: "Inter_500Medium",
     fontSize: 20,
-    color: SignupColors.text,
-    textAlign: "center",
-    fontFamily: "Inter_500Medium",
+    paddingBottom: 2,
   },
-  loginContainer: {
-    height: 83,
-    backgroundColor: SignupColors.registerbg,
+  checkoutItemContent: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 16,
+    color: checkoutColors.textLight,
+    opacity: 0.6,
+  },
+  checkouDiscount: {
+    width: "90%",
+    alignSelf: "center",
+    justifyContent: "center",
+    height: 44,
+  },
+  checkoutItemDiscount: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 18,
+    color: checkoutColors.textLight,
+    opacity: 0.6,
+    width: "100%",
+  },
+  divider: {
+    width: "95%",
+    height: 1,
+    backgroundColor: checkoutColors.textLight,
+    alignSelf: "flex-end",
+    opacity: 0.3,
+  },
+  dividerLast: {
+    width: "100%",
+    height: 1,
+    backgroundColor: checkoutColors.textLight,
+    opacity: 0.3,
+  },
+  priceContainer: {
+    width: "90%",
+    marginVertical: 24,
+    gap: 4,
+  },
+  priceText: {
+    fontFamily: "Inter_400Regular",
+  },
+  priceTotal: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 28,
+  },
+  placeOrder: {
+    backgroundColor: checkoutColors.orange,
+    width: "90%",
+    borderRadius: 40,
+    paddingVertical: 20,
     alignItems: "center",
   },
-  loginButton: {
-    flexDirection: "row",
-    gap: 8,
-    paddingTop: 16,
-  },
-  loginText: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 16,
-    color: SignupColors.form,
-  },
-  loginTextOrange: {
-    color: SignupColors.button,
-    fontFamily: "Inter_500Medium",
-    fontSize: 16,
-  },
+  modal: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: checkoutColors.black,
+    opacity: .7
+  }
 });
