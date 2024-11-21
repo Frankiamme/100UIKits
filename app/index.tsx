@@ -14,10 +14,7 @@ import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import checkoutColors from "@/constants/checkoutColors";
 import { Image } from "expo-image";
 import { AntDesign, MaterialIcons, FontAwesome6 } from "@expo/vector-icons/";
-import {
-  KeyboardAwareScrollView,
-  KeyboardToolbar,
-} from "react-native-keyboard-controller";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
 const bag = require("../assets/images/checkout/bag.png");
 
