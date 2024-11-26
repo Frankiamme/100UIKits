@@ -5,4 +5,6 @@ export default {
   black: "#000000",
   textDark: "#1C1C1E",
   textLight: "#3C3C43",
+  likeBg: "#747480",
+  heart: "#FF3B30",
 };
