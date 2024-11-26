@@ -22,7 +22,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: 'index',
+  initialRouteName: '(discover)',
 };  
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -64,8 +64,8 @@ function RootLayoutNav() {
       <KeyboardProvider>
         <Stack>
           <Stack.Screen
-            name="index"
-            options={{ headerShown: true, title: "Checkout" }}
+            name="(discover)"
+            options={{ headerShown: false, title: "Checkout" }}
           />
         </Stack>
       </KeyboardProvider>
