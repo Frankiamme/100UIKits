@@ -8,6 +8,7 @@ import {
   Inter_400Regular,
   Inter_500Medium,
   Inter_600SemiBold,
+  Inter_700Bold,
 } from "@expo-google-fonts/inter";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 
@@ -35,6 +36,7 @@ export default function RootLayout() {
     Inter_400Regular,
     Inter_500Medium,
     Inter_600SemiBold,
+    Inter_700Bold,
   });
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
@@ -64,7 +66,7 @@ function RootLayoutNav() {
       <KeyboardProvider>
         <Stack>
           <Stack.Screen
-            name="(discover)"
+            name="index"
             options={{ headerShown: false, title: "Checkout" }}
           />
         </Stack>
