@@ -5,4 +5,5 @@ export default {
   limeGreen: "#E4F555",
   textBlack: "#1C1C1E",
   sliderGrey: "#636366",
+  backgroundBlack: "#1b1b1e",
 };
