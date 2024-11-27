@@ -30,6 +30,9 @@ type destinationTypes = {
   image: any;
 };
 
+const blurhash =
+  "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
+
 export default function index() {
   const menuItems = [
     {
@@ -62,6 +65,7 @@ export default function index() {
           source={{ uri: `${image}` }}
           contentFit="cover"
           style={{ width: 360, height: 220, borderRadius: 10 }}
+          placeholder={{ blurhash }}
         />
         <View
           style={{
@@ -79,6 +83,7 @@ export default function index() {
                 source={require("../../assets/images/discover/Rating.svg")}
                 style={{ height: 18, width: 100 }}
                 contentFit="contain"
+                placeholder={{ blurhash }}
               />
               <Text
                 style={{
@@ -130,6 +135,7 @@ export default function index() {
             height: 220,
             borderRadius: 10,
           }}
+          placeholder={{ blurhash }}
         />
         <View
           style={{
@@ -141,7 +147,9 @@ export default function index() {
             <Text style={{ fontFamily: "Inter_400Regular", fontSize: 20 }}>
               {blog_title}
             </Text>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 16 }}>
+            <View
+              style={{ flexDirection: "row", alignItems: "center", gap: 16 }}
+            >
               <View
                 style={{
                   backgroundColor: "rgba(116, 116, 128, 0.08)",
@@ -158,9 +166,10 @@ export default function index() {
                     width: 36,
                   }}
                   contentFit="contain"
+                  placeholder={{ blurhash }}
                 />
               </View>
-              <View style={{gap: 2}}>
+              <View style={{ gap: 2 }}>
                 <Text
                   style={{
                     fontFamily: "Inter_400Regular",

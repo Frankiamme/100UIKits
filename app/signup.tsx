@@ -3,14 +3,15 @@ import {
   Text,
   StyleSheet,
   TextInput,
-  StatusBar,
   Pressable,
+  Alert,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import SignupColors from "@/constants/SignupColors";
 import { Image } from "expo-image";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import Entypo from "@expo/vector-icons/Entypo";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
 const blurhash =
   "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
@@ -18,80 +19,125 @@ const blurhash =
 const logo = require("../assets/images/sign-up/paw.png");
 const facebook = require("../assets/images/sign-up/FacebookLogo.png");
 
-export default function signup() {
-  const [text, onChangeText] = React.useState("Useless Text");
+type passwordType = {
+  password: string;
+  onChangePassword: React.Dispatch<React.SetStateAction<string>>;
+};
+
+type formType = {
+  username: string;
+  email: string;
+  password: string;
+};
+
+const ViewPassword = ({ password, onChangePassword }: passwordType) => {
   const [passSecure, setPassSecure] = React.useState(true);
+
+  return (
+    <View style={styles.passwordInput}>
+      <TextInput
+        onChangeText={onChangePassword}
+        placeholder="***********"
+        secureTextEntry={passSecure}
+        style={styles.inputSecure}
+        placeholderTextColor={SignupColors.form}
+      />
+      <Pressable onPress={() => setPassSecure(!passSecure)}>
+        {passSecure ? (
+          <Entypo name="eye" size={24} color="black" />
+        ) : (
+          <Entypo name="eye-with-line" size={24} color="black" />
+        )}
+      </Pressable>
+    </View>
+  );
+};
+
+export default function signup() {
+  const [username, onChangeUsername] = useState("Username");
+  const [email, onChangeEmail] = useState("Email");
+  const [password, onChangePassword] = useState("");
+
+  const validateForm = ({ username, email, password }: formType) => {
+    return Alert.alert(
+      "Form Login",
+      `Username: ${username},Email: ${email},
+      Password: ${password}`
+    );
+  };
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-        <StatusBar animated={true} />
-        <Image
-          style={styles.image}
-          source={logo}
-          placeholder={{ blurhash }}
-          contentFit="cover"
-          transition={300}
-        />
-        <View style={styles.headingContainer}>
-          <Text style={styles.title}>Meow!</Text>
-          <View>
-            <Text style={styles.description}>Welcome to our adoption app!</Text>
-            <Text style={styles.description}>
-              I hope you will find what you are looking for!
-            </Text>
+        <KeyboardAwareScrollView
+          bottomOffset={10}
+          contentContainerStyle={{
+            alignItems: "center",
+            width: "96%",
+            gap: 40,
+          }}
+        >
+          <Image
+            style={styles.image}
+            source={logo}
+            placeholder={{ blurhash }}
+            contentFit="cover"
+            transition={300}
+          />
+          <View style={styles.headingContainer}>
+            <Text style={styles.title}>Meow!</Text>
+            <View>
+              <Text style={styles.description}>
+                Welcome to our adoption app!
+              </Text>
+              <Text style={styles.description}>
+                I hope you will find what you are looking for!
+              </Text>
+            </View>
           </View>
-        </View>
-        <View style={styles.form}>
-          <TextInput
-            onChangeText={onChangeText}
-            placeholder="Username"
-            style={styles.input}
-            placeholderTextColor={SignupColors.form}
-          />
-          <TextInput
-            onChangeText={onChangeText}
-            placeholder="Email"
-            style={styles.input}
-            placeholderTextColor={SignupColors.form}
-          />
-          <View style={styles.passwordInput}>
+          <View style={styles.form}>
             <TextInput
-              onChangeText={onChangeText}
-              placeholder="***********"
-              secureTextEntry={passSecure}
-              style={styles.inputSecure}
+              onChangeText={onChangeUsername}
+              placeholder={username}
+              style={styles.input}
               placeholderTextColor={SignupColors.form}
             />
-            <Pressable onPress={() => setPassSecure(!passSecure)}>
-              <Entypo name="eye" size={24} color="black" />
+            <TextInput
+              onChangeText={onChangeEmail}
+              placeholder={email}
+              style={styles.input}
+              placeholderTextColor={SignupColors.form}
+            />
+            <ViewPassword
+              password={password}
+              onChangePassword={onChangePassword}
+            />
+            <Pressable
+              style={styles.signInButton}
+              onPress={() => validateForm({ username, email, password })}
+            >
+              <Text style={styles.signInButtonText}>Sign In</Text>
+            </Pressable>
+            <Pressable
+              style={styles.facebookRegister}
+              onPress={() => console.log("Facebook")}
+            >
+              <Image
+                style={styles.FBimage}
+                source={facebook}
+                placeholder={{ blurhash }}
+                contentFit="cover"
+                transition={300}
+              />
+              <Text style={styles.description}>Sign up with Facebook</Text>
             </Pressable>
           </View>
-          <Pressable
-            style={styles.signInButton}
-            onPress={() => console.log("Pressed")}
-          >
-            <Text style={styles.signInButtonText}>Sign In</Text>
-          </Pressable>
-          <Pressable
-            style={styles.facebookRegister}
-            onPress={() => console.log("Facebook")}
-          >
-            <Image
-              style={styles.FBimage}
-              source={facebook}
-              placeholder={{ blurhash }}
-              contentFit="cover"
-              transition={300}
-            />
-            <Text style={styles.description}>Sign up with Facebook</Text>
-          </Pressable>
-        </View>
+        </KeyboardAwareScrollView>
       </SafeAreaView>
       <View style={styles.loginContainer}>
         <Pressable
           style={styles.loginButton}
-          onPress={() => console.log("login")}
+          onPress={() => Alert.alert("Login", "You have pressed login")}
         >
           <Text style={styles.loginText}>Have an account?</Text>
           <Text style={styles.loginTextOrange}>Log In</Text>
@@ -106,13 +152,13 @@ const styles = StyleSheet.create({
     backgroundColor: SignupColors.white,
     flex: 1,
     alignItems: "center",
-    paddingTop: 80,
     gap: 40,
   },
   image: {
     width: 40,
     height: 40,
     backgroundColor: "#0553",
+    marginTop: 80,
   },
   headingContainer: {
     width: "85%",
@@ -149,7 +195,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: SignupColors.facebook,
     fontFamily: "Inter_400Regular",
-    width: "90%"
+    width: "90%",
   },
   passwordInput: {
     borderColor: SignupColors.form,
