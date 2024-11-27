@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable, ScrollView, Share } from "react-native";
+import { View, Text, StyleSheet, Pressable, ScrollView, Share, Alert } from "react-native";
 import React from "react";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import Slider from "@react-native-community/slider";
@@ -69,8 +69,11 @@ const Bookmark = () => {
 export default function Index() {
   const [sliderValue, setSliderValue] = useState(30);
   const [wordOfTheDay, setWordOfTheDay] = useState("¿Quieres ir al cine?");
-  const speak = () => {
-    Speech.speak(wordOfTheDay);
+
+  const speak = (word: string) => {
+    Speech.speak(word, {
+      rate: .8,
+    });
   };
 
   const shareText = async (message: string) => {
@@ -112,7 +115,7 @@ export default function Index() {
             <Text style={styles.headingText}>Translate Sentence</Text>
             <View style={styles.translatedContainer}>
               <Text style={styles.translatedText}>{wordOfTheDay}</Text>
-              <Pressable onPress={speak} style={{ padding: 10 }}>
+              <Pressable onPress={() => speak(wordOfTheDay)} style={{ padding: 10 }}>
                 <Ionicons
                   name="volume-medium"
                   size={24}
@@ -123,7 +126,7 @@ export default function Index() {
             <View style={styles.questionsContainer}>
               {questions.map((question, index) => (
                 <Pressable
-                  onPress={() => Speech.speak(question.option)}
+                  onPress={() => speak(question.option)}
                   style={
                     question.option === "wants"
                       ? styles.questionWrong
@@ -138,7 +141,7 @@ export default function Index() {
             <View style={styles.answersContainer}>
               {answers.map((answer, index) => (
                 <Pressable
-                  onPress={() => Speech.speak(answer.option)}
+                  onPress={() => speak(answer.option)}
                   style={
                     answer.option === "want"
                       ? styles.answerRight
@@ -181,7 +184,7 @@ export default function Index() {
             </View>
           </View>
           <Pressable
-            onPress={() => console.log("next")}
+            onPress={() => Alert.alert("Next Lesson", "Coming Soon!")}
             style={styles.nextButton}
           >
             <Text style={styles.nextText}>Next</Text>
