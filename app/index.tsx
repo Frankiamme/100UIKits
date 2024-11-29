@@ -36,6 +36,11 @@ const screens: screenType[] = [
     path: "/welcomescreen",
     title: "Welcome Screen",
   },
+  {
+    id: 6,
+    path: "/(profile)",
+    title: "Profile",
+  },
 ];
 
 
