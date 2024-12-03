@@ -1,5 +1,12 @@
-import { View, Text, StyleSheet, Pressable, Alert, ScrollView } from "react-native";
-import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Alert,
+  ScrollView,
+} from "react-native";
+import React, { useState } from "react";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import Colors from "@/constants/profile";
 import { Image } from "expo-image";
@@ -7,7 +14,10 @@ import {
   FontAwesome6,
   Ionicons,
   MaterialCommunityIcons,
+  Octicons,
 } from "@expo/vector-icons";
+import { BlurView } from "expo-blur";
+import Slider from "@react-native-community/slider";
 
 const blurhash =
   "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
@@ -51,9 +61,25 @@ const albumList = [
     albumImage: require("../../assets/images/profile/album3.jpg"),
     trackName: "It is what it is",
   },
+  {
+    albumName: "More like you",
+    albumImage: require("../../assets/images/profile/album1.jpg"),
+    trackName: "48 Tracks",
+  },
+  {
+    albumName: "Thundercat",
+    albumImage: require("../../assets/images/profile/album3.jpg"),
+    trackName: "It is what it is",
+  },
 ];
 
 export default function index() {
+  const [sliderValue, setSliderValue] = useState(40);
+
+  const SliderDot = () => {
+    return <Octicons name="dot-fill" size={18} color="black" />;
+  };
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
@@ -123,31 +149,59 @@ export default function index() {
             </View>
           </View>
 
-          {albumList.map((albumItem, index) => (
-            <View key={index} style={styles.albumListItem}>
-              <Image
-                source={albumItem.albumImage}
-                contentFit="contain"
-                style={styles.albumListItemImage}
-                placeholder={{ blurhash }}
-              />
-              <View style={styles.albumItemWrapper}>
-                <View style={styles.nameInfoWrapper}>
-                  <Text style={styles.username}>{albumItem.albumName}</Text>
-                  <Text style={styles.followers}>{albumItem.trackName}</Text>
-                </View>
-                <View style={{ paddingRight: "6%" }}>
-                  <FontAwesome6
-                    name="chevron-right"
-                    size={18}
-                    color="rgba(60, 60, 67, 0.4)"
-                  />
+          <View style={{ paddingBottom: 60 }}>
+            {albumList.map((albumItem, index) => (
+              <View key={index} style={styles.albumListItem}>
+                <Image
+                  source={albumItem.albumImage}
+                  contentFit="contain"
+                  style={styles.albumListItemImage}
+                  placeholder={{ blurhash }}
+                />
+                <View style={styles.albumItemWrapper}>
+                  <View style={styles.nameInfoWrapper}>
+                    <Text style={styles.username}>{albumItem.albumName}</Text>
+                    <Text style={styles.followers}>{albumItem.trackName}</Text>
+                  </View>
+                  <View style={{ paddingRight: "6%" }}>
+                    <FontAwesome6
+                      name="chevron-right"
+                      size={18}
+                      color="rgba(60, 60, 67, 0.4)"
+                    />
+                  </View>
                 </View>
               </View>
-            </View>
-          ))}
+            ))}
+          </View>
         </ScrollView>
       </SafeAreaView>
+      <BlurView intensity={90} tint="light" style={styles.playerContainer}>
+        <Slider
+          style={styles.slider}
+          minimumValue={0}
+          maximumValue={100}
+          minimumTrackTintColor={Colors.black}
+          maximumTrackTintColor={"rgba(60, 60, 67, 0.2)"}
+          thumbTintColor="transparent"
+          value={sliderValue}
+          tapToSeek={true}
+          onValueChange={(value: number) => setSliderValue(value)}
+        />
+        <View style={styles.playerWrapper}>
+          <Image
+            source={require("@/assets/images/profile/track.png")}
+            contentFit="contain"
+            style={styles.trackImage}
+            placeholder={{ blurhash }}
+          />
+          <View style={{ alignItems: "center" }}>
+            <Text style={styles.playerArtist}>MARS</Text>
+            <Text style={styles.playerTrack}>Dio Rex</Text>
+          </View>
+          <FontAwesome6 name="pause" size={24} color="black" />
+        </View>
+      </BlurView>
     </SafeAreaProvider>
   );
 }
@@ -206,7 +260,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderBottomWidth: 1,
     borderColor: "rgba(158, 150, 150, .5)",
-    paddingVertical: 20,
+    paddingVertical: 16,
   },
   recentListened: {
     marginTop: 12,
@@ -217,7 +271,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_600SemiBold,",
     fontSize: 28,
     color: Colors.black,
-    paddingVertical: 20,
+    paddingVertical: 16,
   },
   albumItemWrapper: {
     justifyContent: "space-between",
@@ -226,7 +280,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderBottomWidth: 1,
     borderColor: "rgba(158, 150, 150, .5)",
-    paddingVertical: 30,
+    paddingVertical: 24,
   },
   albumListItem: {
     backgroundColor: Colors.white,
@@ -240,5 +294,38 @@ const styles = StyleSheet.create({
     height: 80,
     marginLeft: "6%",
     borderRadius: 10,
+  },
+  trackImage: {
+    width: 36,
+    height: 36,
+    borderRadius: 8,
+  },
+  playerContainer: {
+    width: "100%",
+    position: "absolute",
+    zIndex: 100,
+    bottom: 0,
+  },
+  playerWrapper: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: "5%",
+    paddingVertical: 10,
+  },
+  playerArtist: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 16,
+  },
+  playerTrack: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 14,
+    color: Colors.grey,
+  },
+  slider: {
+    width: "100%",
+    position: "absolute",
+    top: -20,
+    transform: [{ scaleY: 1.25 }],
   },
 });
