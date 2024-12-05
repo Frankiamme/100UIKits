@@ -5,46 +5,42 @@ import { Href, Link } from "expo-router";
 import Colors from "@/constants/checkoutColors";
 
 type screenType = {
-  id: number;
   path: string;
   title: string;
 }
 
 const screens: screenType[] = [
   {
-    id: 1,
     path: "/signup",
     title: "Signup",
   },
   {
-    id: 2,
     path: "/checkout",
     title: "Checkout",
   },
   {
-    id: 3,
     path: "/(discover)",
     title: "Discover",
   },
   {
-    id: 4,
     path: "/game",
     title: "Game",
   },
   {
-    id: 5,
     path: "/welcomescreen",
     title: "Welcome Screen",
   },
   {
-    id: 6,
     path: "/(profile)",
     title: "Profile",
   },
   {
-    id: 7,
     path: "/settings",
     title: "Settings",
+  },
+  {
+    path: "/phoneCall",
+    title: "Phone Call",
   },
 ];
 
@@ -57,7 +53,7 @@ export default function index() {
           {screens.map((screen, index) => (
             <Link href={screen.path as Href} style={styles.screenItem} key={index}>
               <View style={{ flexDirection: "row", gap: 40, width: "100%" }}>
-                <Text style={styles.textItem}>{screen.id}</Text>
+                <Text style={styles.textItem}>{index + 1}</Text>
                   <Text style={styles.textItem}>{screen.title}</Text>
               </View>
             </Link>
